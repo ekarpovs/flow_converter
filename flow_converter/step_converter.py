@@ -47,9 +47,6 @@ class StepConverter():
       state_name, act_name = step_name_to_state_def_name(idx)
       state_entry_action = ''
       state_exit_action = ''
-      if idx > 0 and idx < len(meta)-1:
-        # Set an entry action for regular states only
-        state_entry_action = act_name
       trans_def = copy.deepcopy(state_transitions)
       for n, tr in enumerate(trans_def):
         tr['name'] = 'tr' + str(idx) + str(n) 
@@ -57,9 +54,15 @@ class StepConverter():
         event_name = trans_def[n]['event'] 
         if event_name == 'next':
           tr['target'], _ = step_name_to_state_def_name(idx, StateOffset.FORWARD)
+          if idx > 0 and idx < len(meta)-1:
+            # Set an action for regular states only
+            tr['action'] = act_name
         elif event_name == 'prev':
           tr['target'], _ = step_name_to_state_def_name(idx, StateOffset.REARWARD)
         else: # 'current'
           tr['target'] = state_name
+          if idx > 0 and idx < len(meta)-1:
+            # Set an action for regular states only
+            tr['action'] = act_name
       return state_name, trans_def, state_entry_action, state_exit_action
     return converter    

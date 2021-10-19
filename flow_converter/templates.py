@@ -5,19 +5,17 @@ class Templates():
     self.states_transitions = [
       # exec
       [
-        self.def_transition(["", "", "next", "", "", "____frfsm-actions.store", ""]),
-        self.def_transition(["", "", "current", "", "", "____frfsm-actions.not_store", ""]),
-        self.def_transition(["", "", "prev", "", "____frfsm-actions.back", "", ""]),
+        self.def_transition(["", "", "next", "", "", "", ""]),
+        self.def_transition(["", "", "current", "", "", "", ""]),
+        self.def_transition(["", "", "prev", "", "", "", ""]),
+      ],
+      # begin
+      [
+        self.def_transition(["", "", "next", "", "", "", ""]),
       ],
       # end
       [
-        self.def_transition(["", "", "prev", "", "____frfsm-actions.back", "", ""]),
-      ],
-      # forinrange
-      [
-        self.def_transition(["", "", "next_end", "", "", "", ""]),
-        self.def_transition(["", "", "next", "", "", "", ""]),
-        self.def_transition(["", "", "prev", "", "____frfsm-actions.back", "", ""]),
+        self.def_transition(["", "", "prev", "", "", "", ""]),
       ]
     ]
 
