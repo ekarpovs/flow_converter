@@ -5,30 +5,27 @@
 import argparse
 import json
 
+from flow_model import FlowModel
+
 from flow_converter import FlowConverter
 
 # Construct the argument parser and parse the arguments
 def parseArgs():
-  ap = argparse.ArgumentParser(description="flow converter")
-  ap.add_argument("-w", "--wrk", required = True,
-	help = "full path to the meta data file")
+  ap = argparse.ArgumentParser(description="flow model")
+  ap.add_argument("-d", "--dir", required = True,
+	help = "path to the directory with the worksheet")
+  ap.add_argument("-f", "--file", required = True,
+	help = "the worksheet file name")
   ap.add_argument("-o", "--output", required = True,
-	help = "full path to the output file(s)")
+	help = "full path to the output file")
   ap.add_argument("-t", "--trace", required = False,
-  default="no",
+  default="no", 
 	help = "print output")
   
   args = ap.parse_args()   
   kwargs = dict((k,v) for k,v in vars(args).items() if k!="message_type")
   return kwargs
 
-
-# Reads the string from the file, parses the JSON data, 
-# populates a Python dict with the data
-def readJson(ffn):
-  with open(ffn, 'rt') as f:
-    data = json.load(f)
-  return data
 
 def storeFsmDef(out_path, fsm_def):
   ffn = "{}/fsm-def.json".format(out_path)
@@ -40,12 +37,11 @@ def storeFsmDef(out_path, fsm_def):
 
 # Main function
 def main(**kwargs): 
-  worksheet = readJson(kwargs.get('wrk'))
-  worksheet.append({"stm": "glbstm.end"})
-  for i, meta in enumerate(worksheet):
-    meta['id'] = i
   # usage in a client - begin
-  fc = FlowConverter(worksheet)
+  model = FlowModel(kwargs.get('dir'))
+  model.load_worksheet(kwargs.get('file'))
+
+  fc = FlowConverter(model)
   fsm_def = fc.convert()
   # usage in a client - end
   
