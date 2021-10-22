@@ -1,51 +1,39 @@
 import copy
-from typing import Tuple
+from typing import List
 
 from flow_model import FlowItemModel
 from flow_model.flowitemtype import FlowItemType
 
 from .templates import Templates 
 
-class StateType():
-  EXEC, STM_BEGIN, STM_END = range(3)
-  # EXEC, STM_BEGIN, STM_END, STM_FORINRANGE, STM_WHILE = range(5)
-
-class StateOffset():
-  REARWARD, NO, FORWARD = range(-1,2)
-
-
 class ItemConverter(): 
-  def __init__(self, idx: int, item: FlowItemModel) ->None:
+  def __init__(self, idx: int, items: List[FlowItemModel]) ->None:
     self._idx = idx
-    self._item = item
+    self._items = items
     return
 
   @property
-  def _item_name_to_state_def_name(self) ->str:
-    return f'{self._item.name.split(".")[1]}'
-
-  @property
   def _item_name_to_current_state_def_name(self) ->str:
-    return f'{self._idx}-{self._item_name_to_state_def_name}'
+    return f'{self._idx}-{self._items[self._idx].name.split(".")[1]}'
 
   @property
   def _item_name_to_next_state_def_name(self) ->str:
-    return f'{self._idx+1}-{self._item_name_to_state_def_name}'
+    return f'{self._idx+1}-{self._items[self._idx+1].name.split(".")[1]}'
 
   @property
   def _item_name_to_prev_state_def_name(self) ->str:
-    return f'{self._idx-1}-{self._item_name_to_state_def_name}'
+    return f'{self._idx-1}-{self._items[self._idx-1].name.split(".")[1]}'
 
   @property
   def regular_state(self):
-    return self._item.itype == FlowItemType.EXEC
+    return self._items[self._idx].itype == FlowItemType.EXEC
 
   def convert_model_item(self):
     templates = Templates()
     transitions = templates.transitions
-    transitions_def = transitions[self._item.itype]    
+    transitions_def = transitions[self._items[self._idx].itype]    
     state_name = self._item_name_to_current_state_def_name
-    act_name = self._item.name
+    act_name = self._items[self._idx].name
     state_entry_action = ''
     state_exit_action = ''
     trans_def = copy.deepcopy(transitions_def)

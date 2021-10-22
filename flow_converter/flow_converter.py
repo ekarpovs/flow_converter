@@ -1,4 +1,4 @@
-from flow_model import FlowModel
+from flow_model import FlowModel, FlowItemModel, FlowItemType
 
 from .templates import Templates 
 from .item_converter import ItemConverter
@@ -14,10 +14,10 @@ class FlowConverter():
     for i, item in enumerate(self._model.items):
       state_entry_action = "" 
       state_exit_action = ""
-      item_converter = ItemConverter(i, item)
+      item_converter = ItemConverter(i, self._model.items)
       (state_name, trans_def, state_entry_action, state_exit_action) = item_converter.convert_model_item()
 
-      if i == 0:
+      if item.itype == FlowItemType.STM_BEGIN:
         first_state_name = state_name
       # TEMPLATE_STATE = ["name", "entry-action", "exit-action", "transitions"]
       state_def = self.templates.def_state([state_name, state_entry_action, state_exit_action, trans_def])
