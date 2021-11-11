@@ -24,14 +24,18 @@ class ItemConverter():
   def _item_name_to_prev_state_def_name(self) ->str:
     return f'{self._idx-1}-{self._items[self._idx-1].name.split(".")[1]}'
 
-  @property
-  def regular_state(self):
-    return self._items[self._idx].itype == FlowItemType.EXEC
+  def _get_state_template_idx(self):
+    if self._idx > 0 and self._idx < len(self._items)-1:
+      return 1
+    if self._idx == len(self._items)-1:
+      return 2
+    return 0
 
   def convert_model_item(self):
     templates = Templates()
     transitions = templates.transitions
-    transitions_def = transitions[self._items[self._idx].itype]    
+    tr_idx = self._get_state_template_idx()
+    transitions_def = transitions[tr_idx]    
     state_name = self._item_name_to_current_state_def_name
     act_name = self._items[self._idx].name
     state_entry_action = ''
@@ -43,14 +47,10 @@ class ItemConverter():
       event_name = trans_def[n]['event'] 
       if event_name == 'next':
         tr['target'] = self._item_name_to_next_state_def_name
-        if self.regular_state:
-          # Set an action for regular states only
-          tr['action'] = act_name
+        tr['action'] = act_name
       elif event_name == 'prev':
         tr['target'] = self._item_name_to_prev_state_def_name
       else: # 'current'
         tr['target'] = state_name
-        if self.regular_state:
-          # Set an action for regular states only
-          tr['action'] = act_name
+        tr['action'] = act_name
     return state_name, trans_def, state_entry_action, state_exit_action
