@@ -1,3 +1,4 @@
 .vscode
+doc
 flow_converter/__pycache__
 flow_converter.egg-info
