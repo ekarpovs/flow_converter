@@ -12,18 +12,18 @@ class FlowConverter():
     states_def = []
     first_state_name = None
     for i, item in enumerate(self._model.items):
-      state_entry_action = "" 
-      state_exit_action = ""
+      # state_entry_action = "" 
+      # state_exit_action = ""
       item_converter = ItemConverter(i, self._model.items)
-      (state_name, trans_def, state_entry_action, state_exit_action) = item_converter.convert_model_item()
-
-      if i == 0:
+      # (state_name, trans_def, state_entry_action, state_exit_action) = item_converter.convert_model_item()
+      state_name, state_def = item_converter.convert_model_item()
+      if item.name == 'glbstm.begin':
         first_state_name = state_name
-      # TEMPLATE_STATE = ["name", "entry-action", "exit-action", "transitions"]
-      state_def = self.templates.def_state([state_name, state_entry_action, state_exit_action, trans_def])
+      # # TEMPLATE_STATE = ["name", "entry-action", "exit-action", "transitions"]
+      # state_def = self.templates.state_def([state_name, state_entry_action, state_exit_action, trans_def])
       states_def.append(state_def)
     # TEMPLATE_FSM = ["info", "context-name", "init-action", "first-state", "states"]    
-    fsm_def = self.templates.def_fsm(['', '', '', first_state_name, states_def])
+    fsm_def = self.templates.fsm_def(['', '', '', first_state_name, states_def])
     return fsm_def
 
 
