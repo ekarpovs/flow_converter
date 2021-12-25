@@ -26,12 +26,12 @@ class ItemConverter():
     return f'{self._idx-1}-{self._items[self._idx-1].name.split(".")[1]}'
 
   @property
-  def _item_name_to_next_false_state_def_name(self) ->str:
+  def _item_name_to_next_after_end_state_def_name(self) ->str:
     # find if_end index
     for i, item in enumerate(self._items):
       if i > self._idx and self._items[i].name == 'glbstm.if_end':
         break
-    return f'{i}-{self._items[i].name.split(".")[1]}'
+    return f'{i+1}-{self._items[i+1].name.split(".")[1]}'
 
   @property
   def _item_name_to_prev_begin_state_def_name(self) ->str:
@@ -65,8 +65,8 @@ class ItemConverter():
       if event_name == 'next':
         tr['target'] = self._item_name_to_next_state_def_name
         tr['action'] = act_name
-      elif event_name == 'next_false':
-        tr['target'] = self._item_name_to_next_false_state_def_name
+      elif event_name == 'next_end':
+        tr['target'] = self._item_name_to_next_after_end_state_def_name
       elif event_name == 'prev':
         tr['target'] = self._item_name_to_prev_state_def_name
       elif event_name == 'prev_begin':

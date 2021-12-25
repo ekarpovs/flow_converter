@@ -19,14 +19,14 @@ class Templates():
         self.transition_def(["", "", "prev", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""])
       ],
-      # if-begin
+      # if_begin
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
-        self.transition_def(["", "", "next_false", "", "", "", ""]),
+        self.transition_def(["", "", "next_end", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""]),
         self.transition_def(["", "", "prev", "", "", "", ""])
       ],
-      # if-end
+      # if_end
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
         self.transition_def(["", "", "prev_begin", "", "", "", ""])
