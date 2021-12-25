@@ -30,7 +30,19 @@ class Templates():
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
         self.transition_def(["", "", "prev_begin", "", "", "", ""])
-      ]
+      ],
+      # while_begin
+      [
+        self.transition_def(["", "", "next", "", "", "", ""]),
+        self.transition_def(["", "", "next_end", "", "", "", ""]),
+        self.transition_def(["", "", "current", "", "", "", ""]),
+        self.transition_def(["", "", "prev", "", "", "", ""])
+      ],
+      # while_end
+      [
+        self.transition_def(["", "", "next_begin", "", "", "", ""]),
+        self.transition_def(["", "", "prev_begin", "", "", "", ""])
+      ]    
     ]
 
   @property
