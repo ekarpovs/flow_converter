@@ -29,17 +29,20 @@ class ItemConverter():
   def _item_name_to_next_after_end_state_def_name(self) ->str:
     # find if_end index
     for i, item in enumerate(self._items):
-      if i > self._idx and (self._items[i].name == 'glbstm.if_end' or self._items[i].name == 'glbstm.while_end'):
+      if i > self._idx and (self._items[i].name == 'glbstm.if_end' or 
+        self._items[i].name == 'glbstm.while_end' or
+        self._items[i].name == 'glbstm.for_end'):
         break
     return f'{i+1}-{self._items[i+1].name.split(".")[1]}'
 
   @property
   def _item_name_to_prev_begin_state_def_name(self) ->str:
     for i, item in enumerate(self._items):
-      if i < self._idx and (self._items[i].name == 'glbstm.if_begin' or self._items[i].name == 'glbstm.while_begin'):
+      if i < self._idx and (self._items[i].name == 'glbstm.if_begin' or
+        self._items[i].name == 'glbstm.while_begin' or
+        self._items[i].name == 'glbstm.for_begin'):
         break
     return f'{i}-{self._items[i].name.split(".")[1]}'
-
 
   def _get_state_transitions_def(self) -> int:
     tr_idxs = {
@@ -47,14 +50,16 @@ class ItemConverter():
       'glbstm.end': 2,
       'glbstm.if_begin': 3,
       'glbstm.if_end': 4,
-      'glbstm.while_begin': 5,
-      'glbstm.while_end': 6,
+      'glbstm.while_begin': 3,
+      'glbstm.while_end': 5,
+      'glbstm.for_begin': 3,
+      'glbstm.for_end': 5
     }
     tr_idx = tr_idxs.get(self._items[self._idx].name, 1)
     return self._templates.transitions[tr_idx]
 
   def convert_model_item(self):
-    transitions_def = self._get_state_transitions_def()    
+    transitions_def = self._get_state_transitions_def() 
     state_name = self._item_name_to_current_state_def_name
     act_name = self._items[self._idx].name
     state_entry_action = ''

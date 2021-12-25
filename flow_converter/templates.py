@@ -3,42 +3,35 @@ class Templates():
     # Predefined transitions
     # TEMPLATE_TRANSITION = ["name", "src", "event", "target", "action", "start-action", "end-action"]
     self._states_transitions = [
-      # begin
+      # 0. begin
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""])
       ],
-      # regular
+      # 1. regular
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""]),
         self.transition_def(["", "", "prev", "", "", "", ""])
       ],
-      # end
+      # 2. end
       [
         self.transition_def(["", "", "prev", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""])
       ],
-      # if_begin
+      # 3. if_begin, while_begin, for_begin
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
         self.transition_def(["", "", "next_end", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""]),
         self.transition_def(["", "", "prev", "", "", "", ""])
       ],
-      # if_end
+      # 4. if_end
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
         self.transition_def(["", "", "prev_begin", "", "", "", ""])
       ],
-      # while_begin
-      [
-        self.transition_def(["", "", "next", "", "", "", ""]),
-        self.transition_def(["", "", "next_end", "", "", "", ""]),
-        self.transition_def(["", "", "current", "", "", "", ""]),
-        self.transition_def(["", "", "prev", "", "", "", ""])
-      ],
-      # while_end
+      # 5. while_end, for_end
       [
         self.transition_def(["", "", "next_begin", "", "", "", ""]),
         self.transition_def(["", "", "prev_begin", "", "", "", ""])
