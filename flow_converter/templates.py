@@ -22,19 +22,18 @@ class Templates():
       # 3. if_begin, while_begin, for_begin
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
-        self.transition_def(["", "", "next_end", "", "", "", ""]),
         self.transition_def(["", "", "current", "", "", "", ""]),
+        self.transition_def(["", "", "end_stm", "", "", "", ""]),
         self.transition_def(["", "", "prev", "", "", "", ""])
       ],
       # 4. if_end
       [
         self.transition_def(["", "", "next", "", "", "", ""]),
-        self.transition_def(["", "", "prev_begin", "", "", "", ""])
+        self.transition_def(["", "", "begin_stm", "", "", "", ""])
       ],
       # 5. while_end, for_end
       [
-        self.transition_def(["", "", "next_begin", "", "", "", ""]),
-        self.transition_def(["", "", "prev_begin", "", "", "", ""])
+        self.transition_def(["", "", "begin_stm", "", "", "", ""])
       ]    
     ]
 

@@ -72,13 +72,13 @@ class ItemConverter():
       if event_name == 'next':
         tr['target'] = self._item_name_to_next_state_def_name
         tr['action'] = act_name
-      elif event_name == 'next_end':
+      elif event_name == 'end_stm':
         tr['target'] = self._item_name_to_next_after_end_state_def_name
-      elif event_name == 'next_begin':
+      elif event_name == 'begin_stm':
         tr['target'] = self._item_name_to_prev_begin_state_def_name
       elif event_name == 'prev':
         tr['target'] = self._item_name_to_prev_state_def_name
-      elif event_name == 'prev_begin':
+      elif event_name == 'begin_stm':
         tr['target'] = self._item_name_to_prev_begin_state_def_name
       else: # 'current'
         tr['target'] = state_name
