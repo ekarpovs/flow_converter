@@ -13,15 +13,10 @@ from flow_converter import FlowConverter
 # Construct the argument parser and parse the arguments
 def parseArgs():
   ap = argparse.ArgumentParser(description="flow model")
-  ap.add_argument("-p", "--path", required = True,
-	help = "path to the directory with the worksheet")
-  ap.add_argument("-n", "--name", required = True,
-	help = "the worksheet file name")
-  ap.add_argument("-o", "--output", required = True,
-	help = "full path to the output file")
-  ap.add_argument("-t", "--trace", required = False,
-  default="no", 
-	help = "print output")
+  ap.add_argument("-w", "--worksheet", required = True,
+	help = "the worksheet full name")
+  ap.add_argument("-d", "--definition", required = False,
+	help = "the definition full name")
   
   args = ap.parse_args()   
   kwargs = dict((k,v) for k,v in vars(args).items() if k!="message_type")
@@ -34,8 +29,7 @@ def load_worksheet(ffn: str) -> List[Dict]:
       worksheet = json.load(ws)
     return worksheet
 
-def storeFsmDef(out_path, fsm_def) -> None:
-  ffn = "{}/fsm-def.json".format(out_path)
+def storeFsmDef(ffn, fsm_def) -> None:
   json_object = json.dumps(fsm_def, indent = 2) 
   with open(ffn, "w") as outfile: 
     outfile.write(json_object)
@@ -45,19 +39,17 @@ def storeFsmDef(out_path, fsm_def) -> None:
 # Main function
 def main(**kwargs) -> None: 
   # usage in a client - begin
-  path = kwargs.get('path')
-  name = kwargs.get('name')
-  ffn = f'{path}/{name}.json'
-  ws = load_worksheet(ffn)
-  model = FlowModel(path, name, ws)
+  ws_ffn = kwargs.get('worksheet')
+  ws = load_worksheet(ws_ffn)
+  model = FlowModel(ws)
 
   fc = FlowConverter(model)
   fsm_def = fc.convert()
   # usage in a client - end
   
-  output_path = kwargs.get('output', '../data/fsm-def')
-  if kwargs.get('trace', 'no') == 'yes':
-    storeFsmDef(output_path, fsm_def)
+  def_ffn = kwargs.get('definition', '../data/fsm-def')
+  if len(def_ffn) > 0:
+    storeFsmDef(def_ffn, fsm_def)
   return
 
 # Entry point
