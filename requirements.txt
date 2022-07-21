@@ -1,3 +1,2 @@
-python > 3.7.4
-cv2 >= 3.4.2
-flow_model >= 0.0.1
+flow_model.egg==info
+setuptools==59.6.0

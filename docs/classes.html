@@ -1,0 +1,26 @@
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      <div class="mermaid">
+    
+        classDiagram
+          class FlowConverter {
+            templates
+            convert()
+            model_to_fsm_def()
+          }
+          class ItemConverter {
+            convert_model_item()
+          }
+          class Templates {
+            transitions
+            fsm_def(values)
+            state_def(values)
+            transition_def(values)
+          }
+          Templates --* FlowConverter : templates
+          Templates --* ItemConverter : _templates
+  
+       </div>
+  </body>
+</html>
